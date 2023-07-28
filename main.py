@@ -136,4 +136,10 @@ def run():
                 st.warning("**" + cal + "**")
 
 
+st.write(
+    """
+    Dashboard created by [Vic3sax](https://www.linkedin.com/in/victory-nnaji-8186231b7/), with [Streamlit](https://www.streamlit.io)
+    """
+)
+
 run()
