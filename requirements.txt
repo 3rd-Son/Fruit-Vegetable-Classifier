@@ -1,0 +1,7 @@
+requests
+streamlit
+beautifulsoup4
+numpy 
+Pillow
+keras
+tensorflow
