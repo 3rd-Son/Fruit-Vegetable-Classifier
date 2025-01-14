@@ -6,7 +6,35 @@ from tensorflow.keras.models import load_model
 import requests
 from bs4 import BeautifulSoup
 
-model = load_model("FruitModel.h5")
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import DepthwiseConv2D
+
+
+# Custom DepthwiseConv2D layer that ignores the 'groups' parameter
+class CustomDepthwiseConv2D(DepthwiseConv2D):
+    def __init__(self, **kwargs):
+        # Remove 'groups' from kwargs if present
+        if "groups" in kwargs:
+            del kwargs["groups"]
+        super().__init__(**kwargs)
+
+    @classmethod
+    def from_config(cls, config):
+        # Remove 'groups' from config if present
+        if "groups" in config:
+            del config["groups"]
+        return super().from_config(config)
+
+
+# Modified model loading function
+def load_model_with_custom_objects(model_path):
+    custom_objects = {"DepthwiseConv2D": CustomDepthwiseConv2D}
+    return load_model(model_path, custom_objects=custom_objects)
+
+
+# Replace your current model loading line with this:
+model = load_model_with_custom_objects("FruitModel.h5")
 labels = {
     0: "apple",
     1: "banana",
